@@ -3,6 +3,7 @@ package com.aws.class3.geocoding.client;
 import com.aws.class3.geocoding.dto.NominatimSearchResult;
 import com.aws.class3.geocoding.exception.ExternalApiException;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
@@ -19,9 +20,13 @@ public class NominatimClient {
             };
 
     private final RestClient restClient;
+    private final String email;
 
-    public NominatimClient(RestClient nominatimRestClient) {
+    public NominatimClient(
+            RestClient nominatimRestClient,
+            @Value("${nominatim.email}") String email) {
         this.restClient = nominatimRestClient;
+        this.email = email;
     }
 
     public List<NominatimSearchResult> search(String street, String city, String state) {
@@ -29,6 +34,7 @@ public class NominatimClient {
                 .queryParam("street", street)
                 .queryParam("city", city)
                 .queryParam("state", state)
+                .queryParam("email", email)
                 .queryParam("format", "json")
                 .queryParam("addressdetails", 1)
                 .queryParam("limit", 1)

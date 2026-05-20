@@ -8,5 +8,6 @@ RUN mvn package -DskipTests -q
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
+COPY global-bundle.pem .
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

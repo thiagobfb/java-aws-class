@@ -29,11 +29,9 @@ public class NominatimClient {
         this.email = email;
     }
 
-    public List<NominatimSearchResult> search(String street, String city, String state) {
+    public List<NominatimSearchResult> search(String message) {
         URI uri = UriComponentsBuilder.fromPath("/search")
-                .queryParam("street", street)
-                .queryParam("city", city)
-                .queryParam("state", state)
+                .queryParam("q", message)
                 .queryParam("email", email)
                 .queryParam("format", "json")
                 .queryParam("addressdetails", 1)
